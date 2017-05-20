@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.4.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-05-20T13:28:50-03:00</updated><id>http://localhost:4000/</id><title type="html">Patch Savage Labs</title><subtitle>An autodidact's adventures in software development, information security, and various other fields.
+</subtitle><entry><title type="html">Introducing Tapestry!</title><link href="http://localhost:4000/tapestry/softdesigns/2017/05/20/introducing-tapestry.html" rel="alternate" type="text/html" title="Introducing Tapestry!" /><published>2017-05-20T12:40:06-03:00</published><updated>2017-05-20T12:40:06-03:00</updated><id>http://localhost:4000/tapestry/softdesigns/2017/05/20/introducing-tapestry</id><content type="html" xml:base="http://localhost:4000/tapestry/softdesigns/2017/05/20/introducing-tapestry.html">&lt;p&gt;&lt;a href=&quot;https://github.com/ZAdamMac/Patchs-Tapestry&quot;&gt;Tapestry&lt;/a&gt; is my specialized backup automation tool, currently in version 0.2.2. The project started as a simple exercise in automating what was, for me, a rather complex task. Naturally, it has since sprawled considerably as an exercise in generalizing its use. It is presently written in Python 2.7.12 with dependencies on Python-GNUPG and Gnu Privacy Guard.&lt;/p&gt;
+
+&lt;p&gt;Tapestry works by searching a pre-defined set of directories (and all of their subdirectories), indexing their files, which it then seperates into the minimum possible number of blocks of a user-defined size, before copying, packaging them as a TAR with bz2 compression, and encrypting them with a purpose specific Disaster Recovery RSA key. The intended use case (mine) was to burn the individual disks to single-write media (in my case, DVDs and, later, BD-R) and recover them as necessary, possibly with off-site storage.&lt;/p&gt;
+
+&lt;p&gt;Tapestry has a number of features developed since then:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Multiplatform Support&lt;/li&gt;
+  &lt;li&gt;Automatic Signing/Validation of Backup Files&lt;/li&gt;
+  &lt;li&gt;Simple/Extended Backup Location Lists&lt;/li&gt;
+  &lt;li&gt;Automatic DR Key generation&lt;/li&gt;
+  &lt;li&gt;Keyring-Only Mode&lt;/li&gt;
+  &lt;li&gt;Key Change Detection (to prevent fraud)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Intended future features include:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Completed Windows and OSX use testing&lt;/li&gt;
+  &lt;li&gt;Enhanced key generation, support for passphrases on DR Key&lt;/li&gt;
+  &lt;li&gt;GUI/Installable&lt;/li&gt;
+  &lt;li&gt;Increased granularity on the inclusive backup function (e.g. Specifically include the category “music”)&lt;/li&gt;
+  &lt;li&gt;Backup-to-server Function&lt;/li&gt;
+  &lt;li&gt;Speed Optimization&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In future posts, we’ll explore why some of these design decisions were made.&lt;/p&gt;</content><author><name></name></author><summary type="html">Tapestry is my specialized backup automation tool, currently in version 0.2.2. The project started as a simple exercise in automating what was, for me, a rather complex task. Naturally, it has since sprawled considerably as an exercise in generalizing its use. It is presently written in Python 2.7.12 with dependencies on Python-GNUPG and Gnu Privacy Guard.</summary></entry></feed>
