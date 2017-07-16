@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Hacking Tapestry: Some Changes"
-date:   2017-07-16 12:40:00 -0300
+date:   2017-07-16 00:40:00 -0300
 categories: Tapestry SoftDesigns
 ---
 
