@@ -2,7 +2,7 @@
 layout: post
 title:  "Hints for Project Clair"
 date:   2017-08-24 08:30:00 -0300
-categories: Project Clair
+categories: ProjectClair
 ---
 
 Those of you who are following my twitter have probably noticed me dropping hints about having a new project, and I'm happy to say that those hints are actually relevant. I do have a new project - on the back burner while I tidy up a few details on some ongoing, older projects, but one that I think will (productively) use up quite a bit more time and attention as I progress out of the preliminary research stage and into actual development.

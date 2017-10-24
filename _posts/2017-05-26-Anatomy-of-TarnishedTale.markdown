@@ -2,7 +2,7 @@
 layout: post
 title:  "Anatomy of TarnishedTale"
 date:   2017-05-26 12:00:00 -0300
-categories: Tapestry SoftDesigns
+categories: TarnishedTale
 ---
 
 If you're wondering why TarnishedTale doesn't have its own repository like Tapestry does, the principle reason is that it doesn't yet work, in any sense of the word (at present, it actively throws errors when you attempt to launch the server at all.) In lieu of that, and because debugging is a little too frustrating to do *before* work, I thought I'd take the time to talk a bit about how it's intended to work.

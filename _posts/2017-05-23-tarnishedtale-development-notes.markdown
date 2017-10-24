@@ -2,7 +2,7 @@
 layout: post
 title:  "TarnishedTale: Overview"
 date:   2017-05-22 14:00:00 -0300
-categories: TarnishedTale Design
+categories: TarnishedTale
 ---
 
 It all started as a half-joking statement on a Discord channel. I remarked that I found the typical aspects of penetration testing in games to be lacking - this followed on after a conversation about my incredibly stupid "Virtual Access Control Lab" build I did in Minecraft. (It wasn't finished. No link for you.) I joked that the sorts of games that always had the most promise for being the corporate iSpy types were all either boring as hell, or glossed over the interesting aspects of breaking and entering.

@@ -2,7 +2,7 @@
 layout: post
 title:  "Sneak Peak at Tapestry 0.3.0!"
 date:   2017-06-10 12:40:00 -0300
-categories: Tapestry SoftDesigns
+categories: Tapestry
 ---
 
 [Tapestry's](https://github.com/ZAdamMac/Patchs-Tapestry) next release was intended to be a small set of fixes, finally fixing the passphrase support for Tapestry-generated PGP keys in both the generator and the recovery modes, and a few related small cleaning changes to the way it outputs files. However, a small change in my work environment (and the discovery that somehow my laptop is suitable for hosting a Win7 VM) meant that what was to be 0.2.3 is instead going to be 0.3.0!

@@ -2,7 +2,7 @@
 layout: post
 title:  "Introducing Tapestry!"
 date:   2017-05-20 12:40:06 -0300
-categories: Tapestry SoftDesigns
+categories: Tapestry
 ---
 
 [Tapestry](https://github.com/ZAdamMac/Patchs-Tapestry) is my specialized backup automation tool, currently in version 0.2.2. The project started as a simple exercise in automating what was, for me, a rather complex task. Naturally, it has since sprawled considerably as an exercise in generalizing its use. It is presently written in Python 2.7.12 with dependencies on Python-GNUPG and Gnu Privacy Guard.

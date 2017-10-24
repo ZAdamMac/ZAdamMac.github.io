@@ -2,7 +2,7 @@
 layout: post
 title:  "Tarnished Tale To Get New Admin Panels"
 date:   2017-10-18 05:00:00 -0400
-categories: Projects
+categories: TarnishedTale
 ---
 
 Since Tapestry[https://www.github.com/ZAdamMac/Patchs-Tapestry] is getting close to the end of its active development period and moving toward the back burner, I'm able to focus a little more attention on Tarnished Tale, that goofy little MUD system I'm building.

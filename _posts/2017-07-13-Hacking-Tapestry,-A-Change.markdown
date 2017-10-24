@@ -2,7 +2,7 @@
 layout: post
 title:  "Hacking Tapestry: Some Changes"
 date:   2017-07-16 00:40:00 -0300
-categories: Tapestry SoftDesigns
+categories: Tapestry
 ---
 
 You might remember that over one month ago, I announced that [Tapestry](https://github.com/ZAdamMac/Patchs-Tapestry) v.0.3.0 was going to have a whole bunch of new features included in it that weren't there before, and I am happy to say that all of those features work, for versions of work. So where the hell is it? I did a bad.

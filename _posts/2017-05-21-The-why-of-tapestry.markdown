@@ -2,7 +2,7 @@
 layout: post
 title:  "The Why of Tapestry"
 date:   2017-05-21 12:40:06 -0300
-categories: Tapestry Design
+categories: Tapestry
 ---
 
 [Tapestry](https://github.com/ZAdamMac/Patchs-Tapestry) has a very odd design. Not odd in that it is novel (I'm almost certain it isn't) or odd in its extreme pecularity, but odd in that it is oddly specific. A traditional backup tool functions not unlike a drive snapshot. It pulls your files, and often your applications and OS settings, every time it is run. Contrast with Tapestry, which by default only grabs your Documents and Photos - Music and Videos, too, if run inclusively.
