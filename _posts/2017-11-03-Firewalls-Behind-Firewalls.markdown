@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Firewalls Behind Firewalls: A Praxis Adventure.
+title: "Firewalls Behind Firewalls: A Praxis Adventure."
 date: 2017-11-03 09:35 -400
 categories: Praxis
 ---

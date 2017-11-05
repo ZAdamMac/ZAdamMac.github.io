@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Complicating TT: Protocolizing Communications
+title: "Complicating TT: Protocolizing Communications"
 date: 2017-10-27 20:30 -400
 categories: TarnishedTale
 ---
