@@ -26,3 +26,7 @@ I was moving on anyway - in one way or another. These forrays into development a
 It doesn't do to dwell, and yet, somehow I feel like I am an air-pirate, whose deposed captain has been forced to sell the ship for scrap, and I am standing on the docks in Lower Valua, watching that old skyworthy thing be torn down for its component steel, seeing in every rivit pulled from its plating and every scar on my hands the long, hot, often painful work that turning her into something with a personality had been.
 
 The reed that cannot bend will break, but... I dunno. Today I feel a little stiff.
+
+*If for some reason you want to help out - and I'm not saying you have to - I'm mostly just looking for leads on new job opportunities for techish, junior positions. Or anything, really.*
+
+*However, I also have a [ko-fi.com](https://ko-fi.com/PSavLabs) account, and I did recently write a book, [currently in paperback](https://www.amazon.com/Sanity-Line-Arcane-Revolution-Trilogy/dp/1979952817/ref=sr_1_1?ie=UTF8&qid=1511541059&sr=8-1&keywords=Sanity+Line), which has an upcoming e-book release as well.*
