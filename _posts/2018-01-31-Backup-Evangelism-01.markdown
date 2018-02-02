@@ -57,7 +57,7 @@ My personal system is to run Tapestry monthly, and take the inclusive backup eve
 
 ## What to look forward to with Tapestry Backup Tool
 
-We've been talking a lot about Tapestry in today's post, which might seem odd for a project that was supposed to be in maintainance mode. As you might have guessed, I'm pulling it back into active production.
+We've been talking a lot about Tapestry in today's post, which might seem odd for a project that was supposed to be in maintenance mode. As you might have guessed, I'm pulling it back into active production.
 
 Currently, we're awaiting Tapestry 1.0.0, the first long-term release. It will come out as close to immediately after the release of the updated `python-gnupg` module as possible, as it depends on a bugfix from that program.
 
