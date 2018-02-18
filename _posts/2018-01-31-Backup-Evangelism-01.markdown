@@ -67,3 +67,7 @@ Here follows a list of the features added to 1.0.0 when compared to the current 
 - Implements a special --genKey flag that generates and exports a new key when called, before executing the rest of its arguments.
 - Switches the current FID system to UUID-based systems. This does not break past backups, but does avoid a rather serious bug which resulted in smashed backup records under certain circumstances, at a small penalty in initial performance and final backup size.
 - Improved documentation and default configurations to be packaged with the release version.
+
+You can look forward to all of this after I have run tests fresh once the module is updated. After 1.0.0, the next scheduled update is 1.1.0, which will add explicit network storage support as well as some CLI improvements.
+
+*If you like Tapestry or any other Patch Savage Labs project, please consider tipping our [coffee fund](https://www.ko-fi.com/PSavLabs). Proceeds go to lab improvements and, to be fair, coffee.*
