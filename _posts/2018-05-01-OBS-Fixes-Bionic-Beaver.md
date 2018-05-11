@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Fixing Bad Xcomposite Captures in OBS"
-date: 2018-05-31 13:00 -400
+date: 2018-04-31 13:00 -400
 categories: Tech
 ---
 
