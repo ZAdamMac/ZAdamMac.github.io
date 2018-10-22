@@ -3,7 +3,7 @@ layout: post
 title: "Open Letter Regarding the New SQLite CoC"
 date: 2018-10-22 10:00 -300
 categories: Tapestry
----
+----
 
 *The following is an open letter I originally sent to the creator of SQLite, Dr D. Richard Hipp, of Hwaci Applied Software Research*
 
