@@ -5,7 +5,7 @@ date: 2018-10-22 10:00 -300 # TODO SET
 categories: HTB
 ----
 
-Irked was a relatively easily-rated 20-point Linux box which I attacked in December 2018. In keeping with [Hack The Box](https://hackthebox.eu)'s spoiler policies, I've sat on this write-up since then.
+Irked was a relatively easily-rated 20-point Linux box which I attacked in December 2018. In keeping with [Hack The Box](https://hackthebox.eu)'s spoiler policies, I've sat on this write-up from then until its retirement from the active roster.
 
 If you're an experienced pentester this machine probably offered you no problems, but as this was only the second machine I rooted (and the first I rooted without cheating), I learned a lot.
 
