@@ -1,0 +1,86 @@
+----
+layout: post
+title: "HTB Post-Root Writeup: Irked"
+date: 2018-10-22 10:00 -300 # TODO SET
+categories: HTB
+----
+
+Irked was a relatively easily-rated 20-point Linux box which I attacked in December 2018. In keeping with [Hack The Box](https://hackthebox.eu)'s spoiler policies, I've sat on this write-up since then.
+
+If you're an experienced pentester this machine probably offered you no problems, but as this was only the second machine I rooted (and the first I rooted without cheating), I learned a lot.
+
+# Phase I: Initial Enumeration
+Everyone knows you can `nmap -v` a target and get a list of common open ports. What I'm usually busy forgetting is that a default nmap scan only scans common TCP ports and sort of ignores the rest - partly because doing a full portscan takes ages and partly because it is noisy as heck.
+
+If you do a default nmap against Irked, you'll find out it's listening on ports 22, 80, and 111. These are common ports and unless you're sitting on an SSH exploit, 22 isn't going to do you much good. Similarly, unless you're sitting on an exploit for RPC, 111 isn't of much use either. 80, of course, is HTTP.
+
+Grab a browser or fire a curl at `10.10.10.117:80` and you'll be rewarded with a sort of ugly static page with a gigantic jpeg smiley and a message about "IRC almost working". If you're me, and too snarky for your own good, this is the point at which you say "Of course IRC isn't working, you don't have the relevant port open."
+
+This, of course, will start you throwing Nikto and a bunch of other tools at the server looking for another way in. Maybe you're a Spartan fan and you don't run nmap manually, so you don't miss what I did.
+
+If, however, you like to *win*, you can nmap for all ports. I wouldn't do this as part of initial network enumeration, but once I found an interesting machine I might be tempted to do something like:
+
+```commandline
+nmap -sV -p - -O 10.10.10.117
+```
+
+This should hopefully return service versions, a best guess of the OS, and status of all ports for the host under test. Doing this we see we actually missed a couple ports in the initial scan: 6697/tcp and 8067/tcp. I never figured out what the infi-async service advertised on 8067 was because I didn't need it - knowing there was an IRC service listening on 6697/tcp was sufficient.
+
+# Phase II: Get an Irksome Shell
+If you have temerity you can just do the incredibly noisy thing I did: point an IRC client at `10.10.10.117:6697` and have a hunt. We already know we're on a linux box and now we know, upon connecting that this is the Unreal IRC daemon.
+
+If you're a skid like me and you never learned how to use MSF from the command line, this is actually a good time for Armitage. Armitage has a search feature that lets you find potentially relevant exploits, and it turns out that Kali's out-the-box version of MSF comes with an exploit for exactly this model of IRC. Punch in the relevant RHOST, RPORT, LHOST, and LPORT values and you can get a kind of shaky TCP duplex shell.
+
+I found this shell to be deeply unstable and, like all initial shells, flaky and unreliable. I'm not sure if this was down to a problem with the shell or the fact that, with Irked only being 21 days online when I was testing it, it was still popular and prone to frequent resets. During the next phase I ultimately wound up spawning 9 of the same shell due to either negligently breaking it or losing the shell when the box rebooted.
+
+# Phase III: User (Should've just used a Post-It)
+Once you have a shell and you're reasonably stable, you should always `whoami`. Of course, we now know we're the IRC daemon, which is, if the machine owner is doing their job, a pretty limited account. This is reasonably true, though amusingly we do have or own /home/ directory. In our own home directory there is, quite naturally, no sign of the fabled `user.txt` which would contain the hash we're trying to catch.
+
+Of course, if you do something clumsy and `ls /home`, you'll note that there is actually a user. Listing the home directories like this is helpful, because, if nothing else, it tells us there's another user, djmardov. With a name like that, that's probably something we're looking for.
+
+At this point, I'll remind you of the awesome power of ls's option flags.
+
+```commandline
+ls -ahlR /home/djmardov
+```
+
+This dumps out a nice tree structure of the contents of all of djmardov's subdirectories to their home directory - at least, of the ones IRCD has permission to view. Here, we find the fabled users.txt in `/home/djmardov/Documents/users.txt`. Of course, we can't read it. Since we used -a, however, we also know that there's a hidden file in the same directory, and that we can cat, yielding a "super leet stego password" of an amusing nature.
+
+Stego means hidden, and if you're like me, you're going to think super leet stego is a lulzy way of referring to hiding a password in a hidden file. Fortunately our user is marginally more clever than that - you can't elevate with that password, nor use it to ssh in directly.
+
+Let's go back to our browser and download the ugly frown jpeg. Steganography is the practice of hiding a message in a carrier message. In modern terms, this is usually hiding one file in another, or at least hiding text in another. Very famously, this technique was lamented during the War on Terror era with the terrorists hiding their secret attack plans in otherwise innocent photos.
+
+Of course, stego is far from standardized. I spent a while bashing my head off the file using Stegosuite, a GUI tool for doing steg work on Kali, to no avail. I even tried fun variations and spinoffs of the password from our hidden file earlier, with no luck. Just when I was about to give up, I reminded myself that flakiness is a thing and tried the same task again with another steg tool - the shitty jpeg immediately yielded a .txt file with a likely looking password.
+
+From there, I was able to ssh into Irked as djmardov using his own password and abandon my flaky shell. Of course, DJ is DJ, so he can read his own user.txt file and I can use it to claim the flag.
+
+# Phase IV: Arrow Root is Damn Sticky
+If you're me, you do all your enumeration manually and in a spotty way, because you are relying on a lazy sysadmin's understanding of linux and not a properly-trained understanding of what's available.
+
+I decided there has to be a better way to enumerate interesting properties of linux systems and so I eventually found, with minor googling, [this linux enum script](https://highon.coffee/blog/linux-local-enumeration-script/). Get that with wget or curl and you can enumerate the machine. If you don't know what normal looks like, enumerate your own machine as well and compare the outputs.
+
+In my case, I found the sticky bit files interesting. Sticky bit files have a special bit set in their permissions that causes them to execute with the permissions of the file owner. If you had a sticky bit file with `root` for an owner, and you had execute permissions over that file, you could theoretically impersonate root. I used a trick like this before on another machine, overwriting the contents of such a file for my own ends.
+
+Unfortunately none of the files with sticky bit permissions on Irked were writeable for djmardov - a good idea - and so I would have been stumped. However, armed with my list of expected and observed values, there were a few files on Irked that didn't appear on my local machine. One of these files, viewuser, didn't even appear for a google search.
+
+That is *very* interesting. If you execute the file with `/usr/bin/viewuser`, it will spit out a list of users and an error: "cannot find /tmp/listusers". A predatory individual might find a file a program is trying to read interesting. And if you were paying attention when you enumerated, you'd know that djmardov has *read/write* permissions to /tmp. Since I knew exactly what I was looking for, my solution was:
+
+```commandline
+echo "cat /root/root.txt" > /tmp/listusers
+```
+
+From there, execute viewuser again and be rewarded with the output of the cat command above. This seems like a limited way to get root, but you could have just as easily gotten a root shell by echoing "/bin/bash" into the listusers file as well.
+
+Claim your flags and then reset the machine - be kind and rewind, after all.
+
+# Phase V: How I Would Secure This Box
+Let's suppose for a minute that this machine wasn't meant to be used by people like us, and was an actual production machine hosting someone's IRC server. What would I have done differently from "djmardov" to prevent a jerk like me from rooting this box?
+
+- For a start, if the IRC daemon was more current in terms of its upgrade status, the exploit I used to get the initial shell would not have worked. This isn't a guarantee of successful defense, but to do otherwise is to ignore the warnings from engineering about the thermal exhaust port, so to speak...
+
+- Additionally, if djmardov had used literally any other technique to remind himself of his ssh password, elevation from daemon-shell to user-shell would have been much harder and likely required another exploit. A password manager or a note in a notebook safely locked in his desk would have been better. Even his stego method would have been fine if Mardov had given his `.backup` file with the stego password in the same permissions state as `user.txt` - I'd have then had to brute force a stego password on an image I had no good reason to believe was hiding anything.
+
+- Supposing `viewusers` was, for some reason, necessary, there are two main things wrong with it:
+ - It was executable by anyone, but made no authentication check. Compare, for example, `sudo` or `pkexec`. These programs both allow users to execute code as though they were their owner (root, in both cases), but they require you to first authenticate. Of course, if djmardov were on the viewusers list, that would have been little protection, but it should be noted djmardov was not a `sudoer` which is the only reason we had to enumerate in the first place.
+ - If a file with sensitive permissions calls into another file, particularly to execute it, that file should be ensured to exist and to exist **with the same permissions**. If /tmp/listusers had existed with the same permissions as viewusers I would not have been able to elevate.
+   - Furthermore, if such a file *is* to exist, it probably shouldn't exist in /tmp/. If it had been in /tmp/ no permissions arrangement in the world could have stopped me from rebooting the machine to empty temp and then recreate the file to my own specifications.
