@@ -141,7 +141,7 @@ $ whoami
 root
 ```
 
-Perfect. We can `cat /root/root.txt`, reset the box, and go the hell home.
+Perfect. We can `cat /root/root.txt`, clean up our mess, and go the hell home.
 
 ## Securing Frolic
 
