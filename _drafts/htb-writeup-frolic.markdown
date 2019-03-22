@@ -1,7 +1,8 @@
+
 ----
 layout: post
 title: "HTB Post-Root Writeup: Frolic"
-date: 2018-10-22 10:00 -300 # TODO SET
+date: 2019-03-23 08:00 -300 # TODO SET
 categories: HTB
 ----
 
@@ -86,9 +87,9 @@ In goofing off with the binary, I can see that it claims to send whatever argume
 
 Eventually I realize that all this does is cat my argument to the end of a string saying a message was sent, and print that. Which is fine. I don't need fancy.
 
-I spent a lazy evening watching videos on exploiting printf functions and I eventually come up with a plan of attack - my brazen, not-knowing-assembly-besides-hello-ass is going to write me a stack overflow.
+I spent a lazy evening watching videos on exploiting printf functions and I eventually come up with a plan of attack - my brazen, not-knowing-assembly-besides-hello-ass is going to write me a buffer overflow.
 
-Some googling eventually reveals the String Format attack, which isn't quite what I want, but this leads me on a tangent pointing me back to stack overflows. Basically, what happens is this:
+Some googling eventually reveals the String Format attack, which isn't quite what I want, but this leads me on a tangent pointing me back to buffer overflows. Basically, what happens is this:
 - The program expects this string to be of a certain length, or less.
 - The program finishes reading the buffer storing the string and then moves on to the next instruction, and;
 - You can crash the program on purpose by exceeding the minimum message length, which makes the next instruction a "wrong" value depending on the string provided, causing a segmentation fault.
@@ -100,7 +101,7 @@ In this case? 52 characters.
 
 There are a bunch of ways that could work that out. I could have checked to see if there was a difference between the exit codes reported by crashed and normal exits and written some python to just add a character to the message until it crashed. That seemed unweildy though.
 
-Turns out metasploit has a tool for this: pattern_create.rb. You can spit out a pattern of arbirary length where the pattern does not repeat. A companion tool can reverse that process later. Grab a string of length ~200 or so, throw it at the program, and it'll crash.
+Turns out metasploit has a tool for this: pattern_create.rb. You can spit out a pattern of arbitrary length where the pattern does not repeat. A companion tool can reverse that process later. Grab a string of length ~200 or so, throw it at the program, and it'll crash.
 
 How do we know where, though?
 
