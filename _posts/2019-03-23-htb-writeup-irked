@@ -1,9 +1,11 @@
 ----
 layout: post
 title: "HTB Post-Root Writeup: Irked"
-date: 2018-10-22 10:00 -300 # TODO SET
+date: 2018-03-23 10:00 -300
 categories: HTB
 ----
+
+*I originally attacked Frolic in October 2018. It was the third root flag I obtained at the time.*
 
 Irked was a relatively easily-rated 20-point Linux box which I attacked in December 2018. In keeping with [Hack The Box](https://hackthebox.eu)'s spoiler policies, I've sat on this write-up from then until its retirement from the active roster.
 

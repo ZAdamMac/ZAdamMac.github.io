@@ -2,7 +2,7 @@
 ----
 layout: post
 title: "HTB Post-Root Writeup: Frolic"
-date: 2019-03-23 08:00 -300 # TODO SET
+date: 2019-03-23 08:00 -300
 categories: HTB
 ----
 
