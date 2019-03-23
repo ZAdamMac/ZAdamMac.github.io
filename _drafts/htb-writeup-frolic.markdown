@@ -6,6 +6,8 @@ date: 2019-03-23 08:00 -300 # TODO SET
 categories: HTB
 ----
 
+*I originally attacked Frolic (and wrote this article) in October 2018. It was the third box I'd ever claimed root on at HTB*
+
 Frolic was a box with some mixed reviews - and I have to be honest, when I started to tackle it, I was in the naysayer camp. That being said, while it wasn't the most realistic challenge ever, it was the most interesting machine I've tackled on [Hack The Box](https://hackthebox.eu) to date. The complications come from elements of the early attack on the box which are more in line with a CTF than a "realistic" penetration test scenario.
 
 That being said, my favourite games lately have been Fireproof Game's The Room franchise, and before that I had played and mostly-beaten Myst, so puzzles are fun from where I sit.
