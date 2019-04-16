@@ -1,7 +1,7 @@
 ----
 layout: post
 title: "Tapestry 2.0 Is Now Available!"
-date: 2019-04-16 23:00 -400
+date: 2019-04-16 18:00 -400
 categories: Tapestry
 ----
 
