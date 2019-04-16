@@ -1,9 +1,9 @@
-----
+---
 layout: post
 title: "Tapestry 2.0 Is Now Available!"
-date: 2019-04-16 18:00 -400
+date: 2019-04-16 18:00 -300
 categories: Tapestry
-----
+---
 
 Tapestry 2.0 was released this afternoon. I wanted to throw together a quick blog post about it so that I could plug the new features, explain the major changes, and drop some hints about what we might see in future releases (and when we might expect those). A future blog post is going to offer a retrospective on the 2.0.0 rewrite as a project in its own right!
 
