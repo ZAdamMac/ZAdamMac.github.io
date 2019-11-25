@@ -91,4 +91,4 @@ Fixing the Ringstellung transforms turned out to be the final piece of the puzzl
 ## Future Work
 An updated test suite based on different known message plain-texts, for different initial conditions representing various known models of enigma, would be handy. There's also another toy project in my pipeline for which an interactive CLI front-end for Python_Enigma would be *enormously* valuable.
 
-Though it was originally just a toy implementation, python-enigma's maintainance and ongoing feature development can be sponsored by backing ZAdamMac in the [GitHub Sponsors Program](https://github.com/sponsors/ZAdamMac). For the first year of the program, Github is matching your sponsorship pledges - so they're basically like half-off!
+Though it was originally just a toy implementation, python-enigma's maintainance and ongoing feature development can be sponsored by backing ZAdamMac in the [GitHub Sponsors Program](https://github.com/sponsors/ZAdamMac). For the first year of the program, Github is matching your sponsorship pledges - so they essentially count for double!
