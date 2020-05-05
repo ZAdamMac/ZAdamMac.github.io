@@ -25,7 +25,8 @@ This exposes a portal for Open Network Admin, which helpfully tells us that is a
 I decided that I wanted to use the Metasploit Module, mostly because I know that Metasploit is considered a professional tool for this sort of thing, and I have been pointedly avoiding the use of MSF in preference of "do it myself" exploitation, which is slow, clumsy, and starting to reach the point of being redundant.
 
 Selecting the exploit and the x64 version of the meterpreter shell payload, it was pretty quick to get a session. From there, drop into a shell, and:
-```shell script
+
+```
 whoami
 www-data
 ```
@@ -41,6 +42,7 @@ As anyone who's done a half-dozen or so of these knows, being www-data sucks for
 With that in mind, there's still some more enumeration to do. I ran a copy of [this script](https://highon.coffee/blog/linux-local-enumeration-script/) which I netcatted into bash, sending the output back to me in the same way (to try and minimize my disk usage). I didn't find much immediately obvious or helpful in that script, but I would keep coming back to run particular parts of it later. What was interesting (in terms of this being an HTB box), was that there are actually two users in the home directory: jimmy and joanna.
 
 I did notice that there are some config files in the /var/www/ona directory. One, `database-settings.inc.config`, was hilarious:
+
 ```php
 <?php
 
@@ -69,7 +71,7 @@ I did monkey around with dropping the meterpreter shell and elevating it (via pt
 
 At a blind guess, I decided jimmy was the most likely user to use it. Sure enough, you can ssh into the box as jimmy using that password, so it's really dual purpose.
 
-```shell script
+```
 cat user.txt
 ```
 
@@ -79,6 +81,7 @@ Sadly, Jimmy doesn't have access to the flag! As well he shouldn't, with habits 
 From a puzzle/game design perspective and in retrospect, I found the way you get from being Jimmy to being Joanna rather clever. That said, I hope the scenario itself is relatively unrealistic.
 
 We know Jimmy doesn't have the control of the flag. But we also have control of Jimmy, which means we can get a list of what he has control of using:
+
 ```bash
 /usr/bin/find / -user $(whoami) 2>/dev/null
 ```
@@ -92,12 +95,14 @@ In doing this, we learn that Jimmy has access to a whole subdirectory in apache'
 `Reversing` this intimidating SHA512 hash is easy, not because SHA512 is flawed, but because it's insufficiently salty. We can just look up the value in a table, yeilding the password `Revealed`.
 
 However, this site isn't actually accessible via the browser from the attacker's machine. If you know apache2, though, you know that you can get a list of the sites available by pulling:
-```shell script
+
+```
 ls /etc/apache2/sites-available
 ```
 
 Sure enough, there's a file for an internal site, `internal.conf`, and when you cat that out, you see that apache, by default, wants to present that site on a high-order port listening at localhost. We can also see some cleverness that would have kept you from just catting out the key as www-data. There are a few different ways to connect to that site. For me, the easiest was a quick curl command:
-```shell script
+
+```
 curl -XPOST -d 'username=jimmy&password=Revealed' 'http://127.0.0.1:52846/main.php'
 ```
 
