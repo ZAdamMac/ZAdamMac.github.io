@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "HTB Post-Root Writeup: Obscurity"
-date: 2019-05-09 19:00 -000
+date: 2020-05-09 19:00 -000
 categories: HTB
 ---
 
