@@ -1,0 +1,48 @@
+---
+layout: post
+title: "Lab Notes #1: Your Weekend Update"
+date: 2020-07-05 09:16 -300
+categories: LabNotes
+---
+
+Several friends of the Lab have suggested I blog more about all the various projects I'm working on at KSL, whether those projects are ready for release or not. This is actually sort of a return to the origin of the blog - if you dive into the archives you'll find plenty of notes on projects that never quite got of the ground - like Tarnished Tale.
+
+There's as much to be learned from the broken bits of rod stock you spat out of your lathe as there is from actual working components, so this is actually probably a useful exercise. This first post in the series is going to be a bit of a dump - we have three primary projects on the go as well as a lot of side exercises, so let's dive right into it!
+
+## PETI: The Search for a Virtual Pet
+[As I've sort-of hinted at](https://www.kenshosec.com/Projects/PETI.html), I'm designing a sort of retro-aesthetic Virtual Pet, taking what I liked (and didn't) about the original, 90s-era Tamagotchi as a guide. This is my first real embedded project, which I'm building around a Texas Instruments microcontroller (the MSP430FR5994), and a SHARP Memory LCD unit.
+
+I'm not the first person to implement this exact module with the MSP430 line, but as near as I can tell nobody's done it with a 5994 and published their code. After wasting a few weeks trying to port an existing code example for my slightly-differently-sized display, slightly-different microcontroller, and slightly-different wiring scheme, I started over on Tuesday with the proverbial blank sheet of paper and imported TI's MSP430 driver library. This eliminates the need for me to immediately learn bitwise math (though I'm really just kicking the problem down the street...) by giving me something not unlike an API I can call instead of setting individual bits in individual registers.
+
+The driver library is huge. I'm hoping that including it doesn't have a serious impact on the ultimate size of the base code, as getting the image onto the display is only a small part of a virtual pet! Fortunately, the onboard memory of my microcontroller is pretty generous by any reasonable standard.
+
+It's my hope that some time next week I should at least have the ability to print an arbitrary hello world to the display. What I'm learning is that it was extremely ambitious to say "Well, I'm very comfortable in Python, I can design this thing", when I didn't know C++ or Assembler, and I'm only passingly familiar with the relevant EE concepts.
+
+At that point, I'd probably start publishing the code and set the github repo that's controlling both the project codebase and my notes and task management for it to public. There's a long way from that initial hello world to anything remotely like what I mean to build, but the same thing was true of Tapestry, if truth be absolutely told. It's another good long-term project to take the next step deeper into the world of development, and some of the features I have planned will make good demonstrators for some rudimentary security concepts - as well as evoke the grand tradition of the DEFCON badge challenge.
+
+## PyMinder: The Maybe-Interface
+A few months ago I had the idea to create a python daemon that acts as a menu/command-control service for a Raspberry Pi, using a Pimoroni LCD display to execute various commands on the device and display status messages. I have the basic protocols and definitions ready for both the menu configuration files and the status communication system, which would rely on simply reading the output files of other processes.
+
+The intended to use case was to control and display status for a whole slew of lightweight dockerized services running on the Pi. However, most of the services I was going to run on that Pi just weren't practical or necessary. Because of that, I don't actually have that much use for this project. I might still build it up, but I suspect that given its redunancies for PETI and my lack of a practical need this project is going to wind up on the shelf for a while.
+
+## Polaris II: Redesigning My Network Service Stack
+Those who have been around for a while know that I like to give astronomical names to my servers. One major recent project that I back-burnered was designing a new way to manage and deploy services onto Polaris, my main server, using Docker.
+
+Docker is a powerful tool. I know I've talked about its uses before, and I even wrote [a guide on setting up your own personal VPN] using docker, which is a way simpler ask than what I have planned here, and that itself is simpler than actual professional Docker Deployments.
+
+However, the containerized function of Docker lets me take advantage of some virtualization-adjacent concepts in designing the stack, and will help me get around a problem I've had for years - correctly handling SSL for two independant virtual hosts that run on the same machine.
+
+Like all good projects, this starts out with a healthy attitude of "You've set up docker services before, this will be cake." I sourced, with the help of some friends, a few tutorials on roughly what I was trying to do - how to set up a docker service using `docker-compose` that will let one machine host many virtual hosts under different domains and subdomains, how to automate the process of renewing LE certs via Docker, and so on.
+
+This introduced two surface complexities that I think I should be able to smooth out very soon:
+- The tutorials I could find are all based around nginx. While I can use nginx for my static-content websites without much by way of changes, I don't know much about hardening it, or if hardening even applies to docker applications (I can only assume it would, at least at the application level). I need to do more research into that.
+- Setting this up in the way I intend to do involves putting the new web host service into *network bind addressing* for ports 80/tcp and 443/tcp. This is fairly standard, because it's how HTTP and HTTPS operate. The problem I run into here is that the afforementioned VPN is already running on Polaris on a docker-originated TCP bind mount at 443, and for obvious reasons, they can't share. The good news here is that I can probably just move the code for the VPN into the nginx environment and set up yet more reverse proxying for the VPN as a subdomain. This is *work*, but it's not a complete re-engineering of the system, and as long as we're all still on lockdown it's not going to be the end of the world if the VPN is down for a few days while I figure it out. I'm the only one who uses it, and I'm already local to my own LAN.
+
+## And Now, Everything Else
+There's lots of other small, fiddly projects going on in the Labs too, none of which are large enough to merit a projects page or even a whole heading in the labnotes. This next week, I'll be working on:
+- Installing Splunk and Snort locally to take advantage of the traffic capture I've been doing with my "hax pivot" as part of ongoing HackTheBox work. This will allow me to hone my traffic analysis skills and go looking for proper IOCs for attacks I do, at least in the initial foothold phase of attacks.
+- Finalizing a CAD drawing for a new desk I'm building. There's nothing special about the desk - it's really just a pared-down workbench - but it's been a while since I've dusted off my CAD skills and it would be nice to have proper plans for the actual build.
+- I've been tidying up my presence on [the main website](https://www.kenshosec.com), github, and LinkedIn, and I need to spend some time focused on that. I'm bulking up my portfolio and showing my work not because I am in any particular hurry to leave my employers behind, but where the company recently filed for Chapter 11 I feel it's in my best interest to have my go-bag, as it were.
+
+If for some reason you enjoy Tapestry, PETI, or any of the other projects I'm working on for Kensho Security Labs, and you wanted to show your support financially,  your best avenue is via [my Github Sponsors account](https://github.com/sponsors/ZAdamMac). If you're feeling the need, [I also enjoy coffee](https://ko-fi.com/KenshoSec).
+
