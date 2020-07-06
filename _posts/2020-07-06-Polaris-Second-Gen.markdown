@@ -20,7 +20,7 @@ Docker actually made this absurdly easy, and I wound up making use of `docker-co
 Like any good individual developer, I'm declaring victory slightly early, so I also want to look at the *lessons learned* in each step and the *work to be done*, since there's always something else you can add by way of refinements.
 
 ## Setting up the nginx-proxy service
-I'm not going to lie - I am not nearly clever enough (or, more accurately, motivated enough) to invent the reverse-proxy-and-automatic-cert-replacement service whole-cloth. I followed [this guide] more or less to the letter, with thanks to friend [@comrade_eevee][https://twitter.com/ComradeEevee] for pointing me in that direction.
+I'm not going to lie - I am not nearly clever enough (or, more accurately, motivated enough) to invent the reverse-proxy-and-automatic-cert-replacement service whole-cloth. I followed [this guide](https://blog.ssdnodes.com/blog/host-multiple-ssl-websites-docker-nginx/) more or less to the letter, with thanks to friend [@comrade_eevee](https://twitter.com/ComradeEevee) for pointing me in that direction.
 
 This guide uses Nginx reverse proxying, some automation, and child containers to do the following few things:
 - listen on a docker network on the host machine for new services coming up.
