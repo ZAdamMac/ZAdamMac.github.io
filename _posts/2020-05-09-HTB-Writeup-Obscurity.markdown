@@ -186,7 +186,7 @@ This only ran for a few minutes and yielded the password I believed to be correc
 
 Then of course follows the rest:
 
-![Got Root!](/images/hah.gif)
+![Got Root!](https://raw.githubusercontent.com/ZAdamMac/zadammac.github.io/master/_site/images/hah.gif)
 
 ## But How Do We Protect This?
 
