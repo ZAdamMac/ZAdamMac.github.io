@@ -14,7 +14,7 @@ As with any attack, the first thing you need to know is a little bit about the m
 
 My first reaction was to pop open a browser and just browse to it. Most boxes on HTB, at least the ones I've done, have involved exploiting a web application for initial foothold, so it's not a bad idea. This returned the usual type of messaging to indicate there was nothing there, so it was time to break out that most basic of enumeration commands:
 
-```shell script
+```
 nmap -A 10.10.10.168
 ```
 
