@@ -165,6 +165,7 @@ If BetterSSH wasn't already the lowest hanging fruit on the system, it would sti
 BetterSSH briefly writes a file with a random name into a directory at /tmp/SSH - a directory which doesn't even exist and it needs the user to helpfully create.
 
 Of course, it also deletes that file really quickly. While there were probably more elegant solutions for the problem, I simply wrote a terrible bash script to set running in one terminal:
+
 ```shell script
 while true; do for i in /tmp/SSH/*; do cat $i; done; done
 ```
