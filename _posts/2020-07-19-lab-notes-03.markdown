@@ -1,0 +1,51 @@
+---
+layout: post
+title: "Lab Notes #3: PETI? Yosegi"
+date: 2020-07-13 09:00 -300
+categories: LabNotes
+---
+
+As I mentioned in last week's lab notes, I [was gated behind purchasing some textbooks](https://zadammac.github.io/LabNotes/2020/07/12/lab-notes-02.html) before I could make much more headway on PETI. Thanks to a fortunate and well-timed [Humble Book Bundle](https://www.humblebundle.com/books/circuits-electronics-morgan-claypool-books), I was able to get not just the documentation I needed but a wealth of other materials that I'm sure will be useful moving forward. I also took the downtime to start laying in the groundwork for a new long-term project and initiative for Kensho Security Labs, which I'll detail below.
+
+## The Search For the Virtual Pet Continues
+Last week I mentioned that PETI was gated behind a mishandled interrupt. This turned out to be true in two different ways.
+
+### Bitmasks Are Always Bitwise
+I might have mentioned already that most of programming the MSP430 family of microcontrollers (or, I suspect, any microcontroller) is putting the right bytes into the right registers. In the MSP430, if you're using their headers and compiler, this can be done by using any of a number of helpfully aliased bitmasks. More than once a project, however, I forget that these are bitmasks rather than, say, object properties. This leads to a condition where I often set something up as an addition operation (+) when I need to be doing bitwise or operations (|).
+
+In this exact instance, it turned out that I did this while setting the flag that enables Global Interrupts, like the Timer interrupt I was relying on. To be doubly sure, I checked the equivalent operation from one of my shiny new textbooks, and also made sure I was using the correct alias for the interrupt vector for the timer I was using: `TIMER1_A0_VECTOR`. Flashed the damn thing to RAM, fired it up, aaaaand...
+
+Bupkis.
+
+### Are you sure you are reading the code correctly?
+
+Fortunately, moving on from here only took another minute or two before I realized the problem. 
+
+![The relevant line of code was commented out!](https://raw.githubusercontent.com/ZAdamMac/zadammac.github.io/master/_site/images/TheresYourProblem.png)
+
+When I uncommented the timer code and re-flashed the program, I got to view my magic blinking red LED in all its glory. VCOM was now being toggled correctly, which meant I no longer had to be as nervous about accidentially damaging my LCD module. While I actually have two spare examples of the exact same LCD module, I only have one BoosterPack for it, and I don't know how involved the process of switching them out is.
+
+### Solving the Static Issue
+One thing that bothered me last week was that the "static" on the LCD display at boot was, well, static. It wasn't changing, at all, even though the screen should have been written to several times in the first miliseconds after boot and about once a second thereafter. This told me that there was likely no actual traffic making it to the LCD at all.
+
+Sharp's documentation for this family of memory LCD units states that the first command that should be sent is essentially a memory clear command. The display module itself has its own integrated controller, which works on a series of shift registers to essentially allow you to just send SPI bits to indicate which pixels need to be turned on. Writing to the screen is more a process of talking to this controller.
+
+This controller, like most memory systems, is volatile when unpowered and tends to essentially fill up with junk. I suspected my clear screen command was never getting through - the static actually persisted if I commented out all of my print-to-screen commands and kept only the routine that was supposed to initialize the screen.
+
+Sure enough, I checked out the SPI standard and it was once again my misunderstanding at issue. SPI has, among other features, a common data line I call CODI (Controller Out, Device In), which is held in common between the main controller on that SPI bus and every device that should be addressible through SPI. There's also a dedicated line to each device called Chip Select, which is used, in this case, to tell the LCD "Hey, I'm talking to you." As it turns out, I had implemented Chip Select backwards - it actually expects to be brought *low* when the device should be listening, which to me anyway was counter-intuitive.
+
+After correcting this, I did get my blank screen. However, I still don't get writes to the display. With the help of the debugger I was able to determine that I'm running up against an Interrupt I don't have an ISR for. When this happens, a sanity function built into the core assembly of the device puts it into PMM0 - essentially switching the CPU off.
+
+Identifying this Interrupt that's being raised is step one of either disabling it or implementing my own ISR, but until then I'm once again gated. I'm realizing pretty quickly that my initial estimations for how complex this project would be are probably low-balled. I'll need to take a step back and re-evaluate the process flow, once I have my working hello-world proof of concept. I'll make that updated project plan and the current codebase public once it actually can say Hello World.
+
+## Introducing Project Yosegi
+Yosegi are a very special subset of traditional Japanese woodcraft: elegant puzzle boxes which are invariably harder to open than they seem. I thought that this was a very fitting name for a series of KSL-published Crackable Virtual Machines - puzzle boxes of entirely another sort. I'm going to shoot to release one every month or two, with each box containing an approachable attack surface, and the traditional foothold-user-root escalation progression. I'm probably also going to be releasing my tooling surrounding the creation of these images as time goes on as well.
+
+The Yosegi boxes themselves will be available from the [Kensho Security Labs](https://www.kenshosec.com) website on release, and I'll be building out tooling to validate your flags as well. I'm still trying to decide how far I want to take the infrastructure around the boxes themselves, but it seems likely there'd be a first blood and "owned by" list, which I should hopefully be able to engineer in a relatively lightweight fashion.
+
+It's likely to be a few months before the first Yosegi box is released. There's a lot that goes into coming up with puzzles when I'm at my cleverest, and CTF puzzles are a new one on me. Plus, that tooling I mentioned releasing? Yeah, I have to actually develop it first.
+
+---
+
+Getting hype for Project Yosegi? If for some reason you enjoy Tapestry, PETI, or any of the other projects I'm working on for Kensho Security Labs, and you wanted to show your support financially, your best avenue is via [my Github Sponsors account](https://github.com/sponsors/ZAdamMac). If you're feeling the need, [I also enjoy coffee](https://ko-fi.com/KenshoSec).
+
