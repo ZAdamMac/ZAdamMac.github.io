@@ -1,0 +1,47 @@
+---
+layout: post
+title: "Lab Notes #4: The Problem With Secret Projects"
+date: 2020-08-04 23:00 -300
+categories: LabNotes
+---
+
+It's been a while since I've done a lab update, hasn't it? Always the way. The problem here is that I haven't been working on PETI much - it requires some significant set-up to get started on, and you have to be in the mood for bashing your head against undiagnosable SPI issues. I have a few pet theories (and a few dumb hacks to try and provide more visibility into that bus), but I haven't had the time to really act on them yet, just due to all the limitations here at home.
+
+At the dayjob, it's time once again for the quarterly rush on the use of accumulated PTO. I myself have some time blocked out later this month and in addition to playing a lot of Kerbal and Stardew Valley I hope to get a lot of work done on PETI that week - I'll be in a position to set up the equipment and leave it in place for a few good sessions.
+
+That said, I have been working a lot on Project Yosegi, my project to design puzzle-box VMs and the tools that help with building them. While I can't talk much about the first box in the series, which I'll explain, I've done a lot of thinking about the framework.
+
+## Bootstrapping CTF Distribution on a Budget
+From the beginning, I wanted to have the Yosegi project boxes be distributed through my site, either on their own subdomain or otherwise. This is because while I don't have a lot of bandwidth or resources, I have storage out the nose. Cloning a platform like [HackTheBox](https://hackthebox.eu), the 24/7/365 5-9's uptime CTF platform just isn't in my price range or area of interest. I also don't necessarily want to tie myself to an existing platform like HTB, as some of their system requirements might prevent more interesting puzzles from being put into place.
+
+What I had instead was a pretty basic idea:
+- A framework shared between the Yosegi boxes and a yosegi host platform that allows for flags to be regenerated on intervals but still validated.
+  - This is to prevent writeups that leak whole flags from being truly spoilery.
+- A platform for distributing the yosegi boxes, as ready to use packages, likely for VirtualBox (because it's what I know.)
+- (Time and Spoons Permitting) Some community elements like a leaderboard.
+
+This is the kind of thing you can actually bash together extremely quickly in Python using existing concepts.
+
+### Regenerating Flags: That's just Weird-TOTP!
+When I said interval-based flags most of you probably thought of TOTP right off the bat. I can't blame you, it was essentially my first thought as well. There's a python TOTP library, `pyotp`, that's permissive enough I can use it for this sort of thing - especially where Yosegi-Toolbox is going to be MIT licensed anyway.
+
+The generator for Yosegi flags - the part that actually lives on the virtual machine and generates the flag - was trivial to pull together in maybe a couple of hours work. While there's no sense publishing it without the (unwritten) validation engine, I'd be shocked to learn it was more than maybe 40 lines of code.
+
+There is a hard and *currently unsolved* problem though: how to store the secret for the flag generator in such a way that the flags aren't trivially generated after the fact by someone just mounting your VM's VDI into another VM where they already have root access. Granted, that kind of physical-access-style attack is out of scope for CTF work, but it forms an interesting challenge from a blue team perspective none the less. Food for future thought.
+
+### Yosegi's Back End
+I haven't actually put much thought into this, beyond knowing the limited features I want, most of which I can (and therefore should) use off-the-shelf code for. There is one thing I want that ties into the validation code, and that would be some kind of leaderboard. Since the whole back-end will be as close to RESTful as I can make it, that'll be REST as well. GG Easy.
+
+I run into some issues if I make the platform too community-oriented. I am in no way compliant, currently, so anything I do that involves storing user information should probably be hosted through a provider that actually is privacy compliant. We'll see if I go much further than the validation API.
+
+## What About the First Yosegi?
+For obvious reasons, I can't tell you much, directly, about the First Yosegi. There's a few reasons for that. The first, and most obvious, is that it's a puzzle. While I will certainly be writing up the solution (and have a fat stack of notes for the inevitable devblog), anything I showed you before it was release or while it was an "active"/current challenge for people to take would obviously spoil the experience.
+
+That said, I can say that the process so far has been an instruction in a lot of the areas of both development and system administration that I've been overlooking for a few years. I let myself get very comfortable working in one very narrow area of development for a few years working on [Tapestry](https://github.com/zadammac/tapestry) and one kind of storytelling with my writing work. This new project breaks me out of my comfort zone for both, which is an enormous relief in some ways and burdensome in others.
+
+What I can share with you are two things: I have decided to name the box Rokkakkei, and it is highly likely that an early, somewhat-more-static-than-final, version of the box will be submitted to HTB. If it's accepted, for obvious reasons, I'll have to shelve the writeup for its full run on the platform.
+
+---
+
+Getting hype for Project Yosegi? If for some reason you enjoy Tapestry, PETI, or any of the other projects I'm working on for Kensho Security Labs, and you wanted to show your support financially, your best avenue is via [my Github Sponsors account](https://github.com/sponsors/ZAdamMac). If you're feeling the need, [I also enjoy coffee](https://ko-fi.com/KenshoSec).
+
