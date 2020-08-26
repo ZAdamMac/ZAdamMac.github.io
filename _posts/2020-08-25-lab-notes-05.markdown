@@ -1,0 +1,61 @@
+---
+layout: post
+title: "Lab Notes #5: Revealing Rokkakei and The Importance of Chapter 26"
+date: 2020-08-25 22:00 -300
+categories: LabNotes
+---
+
+As I'm sure is the case the corporate world over, or at least in North America, August can be a zany time. The dog days of summer are peak PTO hours, which means everyone and their dog are taking their leave, myself included. The practical upshot of this was that I was insanely busy for much of august, and while I was on PTO last week, it didn't leave a ton of energy for serious projects - just a bit of light gaming and a brief dabble with the first Yosegi box, Rokkakei.
+
+## I thought we weren't talking about Yosegi boxes before they were released?
+
+We aren't, really. Rokkakei is never going to be released. At least, the version of Rokkakei I'm about to tell you about is never going to be released. I've done a lot of work on the box, actually. I created a custom Python script that was going to be the keystone of the service-to-user escalation process, and built out a comparatively rich environment on the exploitable wordpress service. All told I've probably sunk about 20 hours into Rokkakei alone, not counting other elements of Project Yosegi that I've talked about before.
+
+## Why not release it?
+
+### Finding Vulnerable Versions of Wordpress Is Surprisingly Difficult
+Wordpress is the Sick Man of content management software. We in the infosec community love to shit on it, because it's so widely deployed, often administered by people who don't understand the importance of following through on patching and hardening, and generally far enough out of date that you can always find a vulnerability for it.
+
+That's why I chose it for Rokkakei. I was aware of a pretty little bug called [CVE-2019-8942](https://www.cvedetails.com/cve/CVE-2019-8942/) which would purportedly allow an authenticated user with relatively minimal privileges to get service-permission RCE on the box. On a reasonably-well-provisioned box like Rokkakei, this didn't get you much more than RCE as the web server user, but you didn't need much more than that to progress on the machine, and since it already had a metasploit module that targets it (search for `wp_crop_rce` in msfconsole), I figured it was good fare for what was to be a beginner-friendly machine.
+
+At the very end of my build process, just as I was getting ready to present the damn thing to the HTB staff as a potential future target, I went through the logical step of attacking my machine and confirming the attack chain I was proposing actually worked. As a result, it was only after I'd spent ages and ages customizing and tweaking the wordpress layout before I found out the version of wordpress I obtained was not actually subject to the CVE. I spent a few hours hunting around for a suitably close backport in the hope of salvaging it, but everything I could find was either (like my version) ambiguous about its minor version/build component or definitely already patched.
+
+There's a lesson here about order of operations.
+
+### Chapter 26 Is Required Reading
+People who know me well know I am practically an evangelist when it comes to two particular people - Adam Savage and Robert Persig. For most in the maker and hacker community, Mr. Savage needs no introduction - if you don't know him from his career on Mythbusters (inconceivable) you've probably either seen a movie he's worked on (Star Wars Ep II, The Matrix) or, at minimum, his talk from Defcon 17 on the subject of failure. He also wrote an excellent book called "Every Tool Is A Hammer", where he touches upon the idea that we all need to use a bit more cooling fluid. Cut carefully, think operations through.
+
+But while I have to give Mr. Savage's book its due as an excellent shop philophy manual and worthy of a solid read and occasional reference, it pales in comparison to the only other printed book that occupies pride of place on my desk (where limited space means I only store a few other notebooks and an eReader full of tech manuals) - Robert Persig's *Zen and the Art of Motorcycle Maintainance*. Entry philosophy for anyone who wants to work seriously, and in my opinion, it's 26th chapter is such a critical piece of sent-from-the-Divine insight that I'm genuinely thinking of making it required reading if Kensho Labs ever hires any staff other than, you know, me.
+
+Chapter 26 is the gumptionology chapter, in which he studies a property he terms gumption, which the modern internet seems to call "spoons", and which I, dyed-in-the-wool whatever I am, refer to variously as keyboard-mana, give-a-censored, and, well, gumption. It's the property that allows you to see potential quality in an outcome and is what you need to keep moving forward on any given task. He also talks about gumption traps, those things you can do that deplete the current reserve of stored gumption and make working harder.
+
+One of those traps, an especially insidious trap that both he and Adam talk about quite a bit, is the Order of Operations trap (sometimes called the Out-of-Order Assembly Trap). This is that feeling you get when you finish putting together the laptop you field-stripped to replace some old paste and found out you've somehow got three screws and an LED left to put back. Or, well, when you spent 20 hours doing window dressing on a project, only to find out its core premise is fatally flawed.
+
+(This is why the sequel to Sanity Line is so long in coming, but trust me, it'll be worth the wait.)
+
+If you've ever made anything before, you know that when working with things it's always helpful to test your premises first.
+
+### What About That Python Script?
+
+To be incredibly brief, the service-to-user attack chain relied on a python script that could be rather trivially injected and would allow you to spawn a shell of more or less your choice. The idea was that the script would have its SUID bit set to the machine's user, so you'd run it from `www-data`, become the user, and maybe claim a user flag or something for your prize.
+
+It turns out, on linux-based systems, *scripts don't work like that*. It's obvious in retrospect, but you can't just SUID the script itself and then invoke a normal binary and have that honoured. The binary isn't executing your script, in the context of the OS. It's reading it, and acting upon it, but not *executing* it.
+
+This left a few potential solutions:
+- **SUIDing the python executable**, which would have *worked* but also would have let an erstwhile hacker simply `python3 -c 'import pty;pty.spawn("/bin/bash")'` without any need to read my script.
+- **Adding a shebang**, which may have worked (though I never tested it), but in all likelihood would not have. While some unixes, like Solaris, let you SUID something with a shebang and execute it, most sources I saw that talked about this explicitly excluded the linux environment (including Ubuntu) from compatibility with that method, all having something to do with how the specific OS facility is actually designed.
+- **Wrapping the python script in a compiled wrapper**, such as via C. This is possible - I know a little C and I suppose learning how to make a C script take arguments out of the CLI would be interesting... but if I wanted to make a vulnerable binary I'd have made a vulnerable binary.
+
+In the end, and with the wordpress component also a wash, I've washed my hands of both and I'm going back to a blank sheet of paper. The python script had some secondary implications in the puzzle box that are still useful, but with both two of three steps of the nobody-to-root attack chain fatally flawed, it was time for pen-and-ink debugging. Some day in the near future I'll break out a notebook and a good pen, brew up a strong cup of coffee, and think this through to its logical conclusion.
+
+## What About PETI?
+I've (subconsciously deliberately) gotten hung on PETI. PETI is a high-cost project - both literally, in terms of obtaining components, and figuratively, in terms of needing to clear off space, set up equipment, and start grinding on compiled code, which is already extra grindy compared to an interpreted language like my good buddy, Python.
+
+That said, I do know roughly what the issue is - there are about 8 userland interrupts that are can take priority over my timer interrupt and are putting me in the ISR trap. I have a broad plan to catch those, which involves adding a lot of ISRs to the program, as well as building a new tool.
+
+I'd been putting off this tool for a few months now, and it's photogenic, so look forward to that in the next week or two, maybe.
+
+---
+
+Getting hype for Project Yosegi? If for some reason you enjoy Tapestry, PETI, or any of the other projects I'm working on for Kensho Security Labs, and you wanted to show your support financially, your best avenue is via [my Github Sponsors account](https://github.com/sponsors/ZAdamMac). If you're feeling the need, [I also enjoy coffee](https://ko-fi.com/KenshoSec).
+
