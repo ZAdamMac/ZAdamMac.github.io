@@ -1,0 +1,39 @@
+---
+layout: post
+title: "A Quarterly Update"
+date: 2020-09-01 22:30 -300
+categories: News
+---
+
+You wouldn't think a one-man lab had quarters... and truth be told, we really sort of don't. Since Kensho Security Labs has never actually turned over any revenue, it doesn't qualify for registration as a business and doesn't have a fiscal year. That said, I've long cultivated a personal habit of chopping the year up broadly into quarters and acting upon that, which is [something I've written upon extensively in the past](https://zadammac.github.io/general/2020/04/19/Getting-Things-Done.html). As might have been appropriate to help end the spiral of burnout that was late July and much of August, I've been going through one of those quarterly planning processes. A lot of it has touched upon what I wanted to do for Kensho Sec, so I thought it'd be a good time to make some announcements - in lieu of lab notes, of which I have none.
+
+## A Change to Project Yosegi
+The inspiration behind Project Yosegi was the puzzles themselves - it's more interesting to me that the puzzle boxes wind up somewhere people can use them, than the fact that that somewhere is a platform I designed. Therefore, I'm de-prioritizing the back end components of Project Yosegi and reprioritizing the creation of new boxen, which will be released on the venerable HackTheBox platform. This gives me a constructive feedback model which I wouldn't have otherwise had, as the boxes will only be released by HackTheBox if they meet their quality standards - a valuable exercise in virtualization, report writing, CTF administration, and actual System Administration tasks. Fun times!
+
+## PETI Prioritized
+I had dramatically underestimated the learning curve with PETI - a repeated failing of mine. I'm therefore setting aside any goals I had regarding a playable proof of concept for the device. Primarily, I want to get an *interactive* hardware proof of concept by the end of the year. That gives me three months to figure out what's blocking with the SPI configuration, make it do something noteworthy when you hit buttons, and then commit everything to documentation and schematics.
+
+It's not the most security-adjacent project in the labs, but the sooner I pull it together the sooner I can make it hackable and interesting.
+
+## Wait a minute... was that a... Tapestry Update?
+It is! [Tapestry](https://www.kenshosec.com/Projects/tapestry.html) is a [long-standing](https://github.com/zadammac/Tapestry) project of mine for the creation of securely-storable backups. It was "shelved" into maintainance-only mode in April, but as it happens, I have a need for a few other small pieces of functionality. I hope to implement those very quickly over the coming weeks, as neither of them are especially novel and I have extensive notes on both, as they were both originally intended to be part of the 2.1.0 release on April 21, 2020.
+
+Those features are as follows:
+- Improved performance on Windows machines during backup creation, and;
+- An in-program method for searching for specific files in your backup data, to allow for single-file recovery.
+
+These will constitute the 2.2 release, which I'm hoping against hope to push by January, 2021.
+
+## Feasibility Study for Loom
+I've written before, long ago, about a companion service I envisioned for Tapestry a long time ago - a backup file librarian utility called Loom. While I've learned enough about the enterprise support game to know better than to think I can implement that original version of Loom at the enterprise scale, I do think a reasonably scalable model of it could be created. I want to look into a few facets of operating cost and try to estimate how long it would take me to build before I commit to doing it, but I do have a need for something that ticks a lot of the original Loom boxes:
+- Cloud or Physically-remote storage of Tapestry files;
+- Authenticated placement and retreival of the files;
+- In an automatable way;
+- With useful/reportable usage statistics.
+
+If I do go ahead with Loom, it's likely the Tapestry appliances that interface with it will be the 2.3 update of that package.
+
+---
+
+Getting hype for Autumn where you live? If for some reason you enjoy Tapestry, PETI, or any of the other projects I'm working on for Kensho Security Labs, and you wanted to show your support financially, your best avenue is via [my Github Sponsors account](https://github.com/sponsors/ZAdamMac). If you're feeling the need, [I also enjoy coffee](https://ko-fi.com/KenshoSec).
+
