@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Adding System Keyring Functionality to Tapestry"
+title: "Pyminder's Unsecure Design"
 date: 2021-02-11 16:00 -400
 categories: security pyminder
 ---
